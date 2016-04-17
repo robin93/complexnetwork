@@ -37,7 +37,7 @@ import os
 
 cwd = os.getcwd()
 
-address_data = (pd.read_csv(os.path.join(cwd,'milano_address_list.csv'),header=0,sep = ",")).head(20)
+address_data = (pd.read_csv(os.path.join(cwd,'milano_municipality_population_level_mapping.csv'),header=0,sep = ","))
 # #gcd = grid_coordinates_data
 gcd = pd.read_csv(os.path.join(cwd,'Milano_GridGeoCoordinates.csv'),header = 0,sep = ",")
 # geolocator = Nominatim()
@@ -46,7 +46,7 @@ g = geocoders.GoogleV3()
 # print address_data
 def AssignCoordinates(row):
 	sleep(1)
-	coordinates = g.geocode(row['Address'],timeout=10)
+	coordinates = g.geocode(row['Municipality'],timeout=10)
 	if coordinates is not None:
 		return [coordinates.longitude,coordinates.latitude]
 		print coordinates.longitude,coordinates.latitude
@@ -67,7 +67,8 @@ address_data['GridNumber'] = address_data.apply(CoordinatesToGrid,axis=1)
 location_dict = dict()
 
 print address_data
-print gcd.head(10)
+# print gcd.head(10)
 
-address_data.to_csv('addressToGridNumber.csv',sep = ',',index = False)
+address_data.to_csv('Municipality_to_gridnumberMapping.csv',sep = ',',index = False)
+
 
